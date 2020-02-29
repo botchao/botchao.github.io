@@ -3,7 +3,12 @@
 <head>
   <title>nCoV Japan Map</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
   <script type="text/javascript" src="https://unpkg.com/japan-map-js@1.0.1/dist/jpmap.min.js"></script>
+  <script src="data.js"></script>
   <style>
     body {
       background-color: #222222
@@ -20,17 +25,64 @@
   </style>
 </head>
 <body>
-  <span id="text" style="display:inline-block; width: 1002px; color: #ffffff; background-color: #ff0000; text-align: center">令和2年2月15日版</span>
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="panel panel-danger">
+            <div class="panel-heading">Last Updated Date</div>
+            <div class="panel-body">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-danger">
+            <div class="panel-heading">Total Number</div>
+            <div class="panel-body">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-danger">
+            <div class="panel-heading">Gender</div>
+            <div class="panel-body">
+            </div>
+          </div>
+        </div>
+      </div>    
+      <br>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-danger">
+            <div class="panel-heading">Date</div>
+            <div class="panel-body">
+              <canvas id="barDate"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-danger">
+            <div class="panel-heading">Age</div>
+            <div class="panel-body">
+              <canvas id="barAge"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span id="text" style="display:inline-block; width: 1002px; color: #ffffff; background-color: #ff0000; text-align: center">令和2年2月27日版</span>
   <span id="tooltip"></span>
   <div id="my-map"></div>
   <script>
     function scale(xMax, xMin, yMax, yMin, yInput) {
-      percent = (yInput - yMin) / (yMax - yMin);
-      return percent * (xMax - xMin) + xMin;
+      const percent = (yInput - yMin) / (yMax - yMin);
+      const result = percent * (xMax - xMin) + xMin;
+      return result;
     }
 
     function getColorCode(target) {
-      const c = Math.round(255.0 - scale(0,255,0,20,target)).toString(16).padStart(2, "0");
+      const c = Math.round(255.0 - scale(0,255,0,70,target)).toString(16).padStart(2, "0");
       return "#FF" + c + c;
     }
 
@@ -41,56 +93,15 @@
         tooltipSpan.style.left = (x + 16) + 'px';
     };
 
+    var areas = [];
+    for (var code = 1; code <= 47; code++) {
+      const num = (groupedByLocation[code]) ? groupedByLocation[code].length : 0;
+      areas.push({ "code":code, "color": getColorCode(num), "number": num });
+    }
+    // console.log(areas);
+
     var d = new jpmap.japanMap(document.getElementById("my-map"), {
-      areas: [
-        { "code":1, "color": getColorCode(2), "number": 2 }, 
-        { "code":2, "color": getColorCode(0), "number": 0 },
-        { "code":3, "color": getColorCode(0), "number": 0 },
-        { "code":4, "color": getColorCode(0), "number": 0 },
-        { "code":5, "color": getColorCode(0), "number": 0 },
-        { "code":6, "color": getColorCode(0), "number": 0 },
-        { "code":7, "color": getColorCode(0), "number": 0 },
-        { "code":8, "color": getColorCode(0), "number": 0 },
-        { "code":9, "color": getColorCode(0), "number": 0 },
-        { "code":10, "color": getColorCode(0), "number": 0 },
-        { "code":11, "color": getColorCode(1), "number": 1 },
-        { "code":12, "color": getColorCode(6), "number": 6 },
-        { "code":13, "color": getColorCode(18), "number": 18 },
-        { "code":14, "color": getColorCode(4), "number": 4 },
-        { "code":15, "color": getColorCode(0), "number": 0 },
-        { "code":16, "color": getColorCode(0), "number": 0 },
-        { "code":17, "color": getColorCode(0), "number": 0 },
-        { "code":18, "color": getColorCode(0), "number": 0 },
-        { "code":19, "color": getColorCode(0), "number": 0 },
-        { "code":20, "color": getColorCode(0), "number": 0 },
-        { "code":21, "color": getColorCode(0), "number": 0 },
-        { "code":22, "color": getColorCode(0), "number": 0 },
-        { "code":23, "color": getColorCode(4), "number": 4 },
-        { "code":24, "color": getColorCode(1), "number": 1 },
-        { "code":25, "color": getColorCode(0), "number": 0 },
-        { "code":26, "color": getColorCode(2), "number": 2 },
-        { "code":27, "color": getColorCode(1), "number": 1 },
-        { "code":28, "color": getColorCode(0), "number": 0 },
-        { "code":29, "color": getColorCode(1), "number": 1 },
-        { "code":30, "color": getColorCode(5), "number": 5 },
-        { "code":31, "color": getColorCode(0), "number": 0 },
-        { "code":32, "color": getColorCode(0), "number": 0 },
-        { "code":33, "color": getColorCode(0), "number": 0 },
-        { "code":34, "color": getColorCode(0), "number": 0 },
-        { "code":35, "color": getColorCode(0), "number": 0 },
-        { "code":36, "color": getColorCode(0), "number": 0 },
-        { "code":37, "color": getColorCode(0), "number": 0 },
-        { "code":38, "color": getColorCode(0), "number": 0 },
-        { "code":39, "color": getColorCode(0), "number": 0 },
-        { "code":40, "color": getColorCode(0), "number": 0 },
-        { "code":41, "color": getColorCode(0), "number": 0 },
-        { "code":42, "color": getColorCode(0), "number": 0 },
-        { "code":43, "color": getColorCode(0), "number": 0 },
-        { "code":44, "color": getColorCode(0), "number": 0 },
-        { "code":45, "color": getColorCode(0), "number": 0 },
-        { "code":46, "color": getColorCode(0), "number": 0 },
-        { "code":47, "color": getColorCode(1), "number": 1 }
-      ],
+      areas: areas,
       hoverColor: "#ffdd00",
       movesIslands : true,
       borderLineColor: "#000000",
@@ -109,6 +120,44 @@
       onHoverOut: function(data) {
         var tt = document.getElementById("tooltip");
         tt.style = "display:none;";
+      }
+    });
+
+    var ctxBarAge = document.getElementById("barAge");
+    var barChartAge = new Chart(ctxBarAge, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(groupedByAge),
+        datasets: [{
+          data: Object.keys(groupedByAge).map(e => groupedByAge[e].length),
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+      }
+    });
+
+    var ctxBarDate = document.getElementById("barDate");
+    var barChartDate = new Chart(ctxBarDate, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(groupedByDate),
+        datasets: [{
+          data: Object.keys(groupedByDate).map(e => groupedByDate[e].length),
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
       }
     });
   </script>

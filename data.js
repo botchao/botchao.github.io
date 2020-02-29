@@ -1,51 +1,1307 @@
-// 1  北海道　	北海道	Hokkaido
-// 2	青森県　	青森　	Aomori
-// 3  岩手県　	岩手　	Iwate
-// 4	宮城県　	宮城　	Miyagi
-// 5	秋田県　	秋田　	Akita
-// 6	山形県　	山形　	Yamagata
-// 7	福島県　	福島　	Fukushima
-// 8	茨城県　	茨城　	Ibaraki
-// 9	栃木県　	栃木　	Tochigi
-// 10	群馬県　	群馬　	Gunma
-// 11	埼玉県　	埼玉　	Saitama
-// 12	千葉県　	千葉　	Chiba
-// 13	東京都　	東京　	Tokyo
-// 14	神奈川県	神奈川	Kanagawa
-// 15	新潟県　	新潟　	Niigata
-// 16	富山県　	富山　	Toyama
-// 17	石川県　	石川　	Ishikawa
-// 18	福井県　	福井　	Fukui
-// 19	山梨県　	山梨　	Yamanashi
-// 20	長野県　	長野　	Nagano
-// 21	岐阜県　	岐阜　	Gifu
-// 22	静岡県　	静岡　	Shizuoka
-// 23	愛知県　	愛知　	Aichi
-// 24	三重県　	三重　	Mie
-// 25	滋賀県　	滋賀　	Shiga
-// 26	京都府　	京都　	Kyoto
-// 27	大阪府　	大阪　	Osaka
-// 28	兵庫県　	兵庫　	Hyogo
-// 29	奈良県　	奈良　	Nara
-// 30	和歌山県	和歌山	Wakayama
-// 31	鳥取県　	鳥取　	Tottori
-// 32	島根県　	島根　	Shimane
-// 33	岡山県　	岡山　	Okayama
-// 34	広島県　	広島　	Hiroshima
-// 35	山口県　	山口　	Yamaguchi
-// 36	徳島県　	徳島　	Tokushima
-// 37	香川県　	香川　	Kagawa
-// 38	愛媛県　	愛媛　	Ehime
-// 39	高知県　	高知　	Kochi
-// 40	福岡県　	福岡　	Fukuoka
-// 41	佐賀県　	佐賀　	Saga
-// 42	長崎県　	長崎　	Nagasaki
-// 43	熊本県　	熊本　	Kumamoto
-// 44	大分県　	大分　	Oita
-// 45	宮崎県　	宮崎　	Miyazaki
-// 46	鹿児島県	鹿児島	Kagoshima
-// 47	沖縄県　	沖縄　	Okinawa
-
 const nCovData = [
-  { "newId": 1, "oldId": 1, "date": "2020-01-15", "age": 30, "gender": "male", "locationCode": 14, "ref": "https://www.mhlw.go.jp/stf/newpage_08906.html", "comment": "" }, 
+  {
+    "date": "2020/1/15",
+    "age": 30,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/1/24",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/1/25",
+    "age": 30,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/1/26",
+    "age": 40,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/1/28",
+    "age": 40,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/1/28",
+    "age": 60,
+    "gender": "M",
+    "location": 29
+  },
+  {
+    "date": "2020/1/28",
+    "age": 40,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/1/29",
+    "age": 40,
+    "gender": "F",
+    "location": 27
+  },
+  {
+    "date": "2020/1/30",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/1/30",
+    "age": 50,
+    "gender": "M",
+    "location": 24
+  },
+  {
+    "date": "2020/1/30",
+    "age": 30,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/1/30",
+    "age": 20,
+    "gender": "F",
+    "location": 26
+  },
+  {
+    "date": "2020/1/31",
+    "age": 20,
+    "gender": "F",
+    "location": 12
+  },
+  {
+    "date": "2020/2/1",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/1",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/1",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/4",
+    "age": 30,
+    "gender": "F",
+    "location": 12
+  },
+  {
+    "date": "2020/2/4",
+    "age": 50,
+    "gender": "F",
+    "location": 12
+  },
+  {
+    "date": "2020/2/4",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/5",
+    "age": 40,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/5",
+    "age": 20,
+    "gender": "M",
+    "location": 26
+  },
+  {
+    "date": "2020/2/5",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/8",
+    "age": 20,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/10",
+    "age": 40,
+    "gender": "M",
+    "location": 11
+  },
+  {
+    "date": "2020/2/10",
+    "age": 50,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/11",
+    "age": 50,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/13",
+    "age": 80,
+    "gender": "F",
+    "location": 14
+  },
+  {
+    "date": "2020/2/13",
+    "age": 70,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/13",
+    "age": 50,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/13",
+    "age": 20,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/13",
+    "age": 70,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/13",
+    "age": 60,
+    "gender": "F",
+    "location": 47
+  },
+  {
+    "date": "2020/2/13",
+    "age": 50,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/13",
+    "age": 70,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/13",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/13",
+    "age": 50,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/14",
+    "age": 30,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/1/31",
+    "age": 30,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/1/29",
+    "age": 50,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/1/30",
+    "age": 30,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/1/30",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/14",
+    "age": 50,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/14",
+    "age": 50,
+    "gender": "F",
+    "location": 30
+  },
+  {
+    "date": "2020/2/14",
+    "age": 60,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/15",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/15",
+    "age": 60,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/15",
+    "age": 60,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/15",
+    "age": 80,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/15",
+    "age": 50,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/15",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/15",
+    "age": 70,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/15",
+    "age": 70,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/15",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/16",
+    "age": 60,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/16",
+    "age": 30,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/16",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/16",
+    "age": 30,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/16",
+    "age": 60,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/16",
+    "age": 60,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/16",
+    "age": 40,
+    "gender": "F",
+    "location": 14
+  },
+  {
+    "date": "2020/2/17",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/17",
+    "age": 80,
+    "gender": "F",
+    "location": 30
+  },
+  {
+    "date": "2020/2/17",
+    "age": 50,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/17",
+    "age": 50,
+    "gender": "F",
+    "location": 30
+  },
+  {
+    "date": "2020/2/17",
+    "age": 50,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/17",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/18",
+    "age": 60,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/18",
+    "age": 30,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/18",
+    "age": 10,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/18",
+    "age": 80,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/18",
+    "age": 20,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/18",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/18",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/18",
+    "age": 80,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/18",
+    "age": 70,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/19",
+    "age": 60,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/19",
+    "age": 40,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/19",
+    "age": 60,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/19",
+    "age": 60,
+    "gender": "M",
+    "location": 47
+  },
+  {
+    "date": "2020/2/19",
+    "age": 70,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/19",
+    "age": 70,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/19",
+    "age": 70,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/19",
+    "age": 50,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/19",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/20",
+    "age": 60,
+    "gender": "M",
+    "location": 40
+  },
+  {
+    "date": "2020/2/20",
+    "age": 40,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/20",
+    "age": 70,
+    "gender": "F",
+    "location": 12
+  },
+  {
+    "date": "2020/2/20",
+    "age": 80,
+    "gender": "M",
+    "location": 47
+  },
+  {
+    "date": "2020/2/20",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/20",
+    "age": 30,
+    "gender": "M",
+    "location": 11
+  },
+  {
+    "date": "2020/2/20",
+    "age": 80,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/20",
+    "age": 80,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/20",
+    "age": 60,
+    "gender": "F",
+    "location": 40
+  },
+  {
+    "date": "2020/2/20",
+    "age": "unknown",
+    "gender": "unknown",
+    "location": 14
+  },
+  {
+    "date": "2020/2/21",
+    "age": 0,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/21",
+    "age": 10,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/21",
+    "age": 40,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/21",
+    "age": 50,
+    "gender": "M",
+    "location": 17
+  },
+  {
+    "date": "2020/2/21",
+    "age": 0,
+    "gender": "M",
+    "location": 11
+  },
+  {
+    "date": "2020/2/21",
+    "age": 50,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/21",
+    "age": 70,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/21",
+    "age": 50,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/21",
+    "age": 60,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/21",
+    "age": 80,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/21",
+    "age": 70,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/21",
+    "age": 20,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/22",
+    "age": 20,
+    "gender": "F",
+    "location": 43
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "M",
+    "location": 43
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "M",
+    "location": 43
+  },
+  {
+    "date": "2020/2/22",
+    "age": 40,
+    "gender": "M",
+    "location": 30
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "F",
+    "location": 12
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "F",
+    "location": 12
+  },
+  {
+    "date": "2020/2/22",
+    "age": 30,
+    "gender": "F",
+    "location": 12
+  },
+  {
+    "date": "2020/2/22",
+    "age": 70,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 80,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 70,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 10,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 10,
+    "gender": "M",
+    "location": 17
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/22",
+    "age": 40,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/22",
+    "age": 60,
+    "gender": "F",
+    "location": 9
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 70,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 70,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/23",
+    "age": 70,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/23",
+    "age": 40,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/23",
+    "age": 30,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 60,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 20,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 70,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 30,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 80,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 40,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/23",
+    "age": 20,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/24",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/24",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/24",
+    "age": 60,
+    "gender": "M",
+    "location": 17
+  },
+  {
+    "date": "2020/2/25",
+    "age": 50,
+    "gender": "F",
+    "location": 17
+  },
+  {
+    "date": "2020/2/24",
+    "age": 70,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/24",
+    "age": 50,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/24",
+    "age": 20,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/24",
+    "age": 50,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/24",
+    "age": 40,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/24",
+    "age": 50,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/24",
+    "age": 30,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/22",
+    "age": 50,
+    "gender": "F",
+    "location": 14
+  },
+  {
+    "date": "2020/2/22",
+    "age": 20,
+    "gender": "F",
+    "location": 14
+  },
+  {
+    "date": "2020/2/22",
+    "age": 20,
+    "gender": "F",
+    "location": 14
+  },
+  {
+    "date": "2020/2/25",
+    "age": 60,
+    "gender": "M",
+    "location": 20
+  },
+  {
+    "date": "2020/2/25",
+    "age": 50,
+    "gender": "M",
+    "location": 43
+  },
+  {
+    "date": "2020/2/25",
+    "age": 60,
+    "gender": "F",
+    "location": 43
+  },
+  {
+    "date": "2020/2/24",
+    "age": 60,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/25",
+    "age": 20,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/25",
+    "age": 20,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/25",
+    "age": 70,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/25",
+    "age": 60,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/25",
+    "age": 70,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/25",
+    "age": 70,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/25",
+    "age": 40,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/25",
+    "age": 60,
+    "gender": "F",
+    "location": 36
+  },
+  {
+    "date": "2020/2/25",
+    "age": 60,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/25",
+    "age": 50,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "M",
+    "location": 12
+  },
+  {
+    "date": "2020/2/25",
+    "age": 50,
+    "gender": "M",
+    "location": 21
+  },
+  {
+    "date": "2020/2/26",
+    "age": 50,
+    "gender": "F",
+    "location": 20
+  },
+  {
+    "date": "2020/2/26",
+    "age": "unknown",
+    "gender": "unknown",
+    "location": 1
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/26",
+    "age": 40,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/25",
+    "age": 20,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/26",
+    "age": 60,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/26",
+    "age": 40,
+    "gender": "F",
+    "location": 27
+  },
+  {
+    "date": "2020/2/26",
+    "age": 80,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "M",
+    "location": 13
+  },
+  {
+    "date": "2020/2/26",
+    "age": 50,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/26",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/26",
+    "age": 70,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/27",
+    "age": 50,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 50,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 30,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 70,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 60,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 40,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 40,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 0,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 30,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 0,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 80,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 30,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 80,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 60,
+    "gender": "M",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 40,
+    "gender": "F",
+    "location": 1
+  },
+  {
+    "date": "2020/2/27",
+    "age": 60,
+    "gender": "F",
+    "location": 13
+  },
+  {
+    "date": "2020/2/27",
+    "age": 40,
+    "gender": "M",
+    "location": 27
+  },
+  {
+    "date": "2020/2/27",
+    "age": 50,
+    "gender": "M",
+    "location": 17
+  },
+  {
+    "date": "2020/2/26",
+    "age": 50,
+    "gender": "F",
+    "location": 21
+  },
+  {
+    "date": "2020/2/27",
+    "age": 60,
+    "gender": "F",
+    "location": 23
+  },
+  {
+    "date": "2020/2/27",
+    "age": 60,
+    "gender": "M",
+    "location": 23
+  },
+  {
+    "date": "2020/2/26",
+    "age": 50,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/27",
+    "age": 40,
+    "gender": "F",
+    "location": 14
+  },
+  {
+    "date": "2020/2/27",
+    "age": 20,
+    "gender": "M",
+    "location": 14
+  },
+  {
+    "date": "2020/2/27",
+    "age": 50,
+    "gender": "M",
+    "location": 14
+  }
 ];
+
+const groupedByLocation = nCovData.reduce(function (r, a) {
+  r[a.location] = r[a.location] || [];
+  r[a.location].push(a);
+  return r;
+}, Object.create(null));
+console.log(groupedByLocation);
+
+const groupedByAge = nCovData.reduce(function (r, a) {
+  r[a.age] = r[a.age] || [];
+  r[a.age].push(a);
+  return r;
+}, Object.create(null));
+console.log(groupedByAge);
+
+const groupedByDate = nCovData.reduce(function (r, a) {
+  r[a.date] = r[a.date] || [];
+  r[a.date].push(a);
+  return r;
+}, Object.create(null));
+console.log(groupedByDate);
