@@ -1305,3 +1305,10 @@ const groupedByDate = nCovData.reduce(function (r, a) {
   return r;
 }, Object.create(null));
 console.log(groupedByDate);
+
+const groupedByGender = nCovData.reduce(function (r, a) {
+  r[a.gender] = r[a.gender] || [];
+  r[a.gender].push(a);
+  return r;
+}, Object.create(null));
+console.log(groupedByGender);

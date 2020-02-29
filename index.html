@@ -31,14 +31,14 @@
         <div class="col-md-4">
           <div class="panel panel-danger">
             <div class="panel-heading">Last Updated Date</div>
-            <div class="panel-body">
-            </div>
+            <div class="panel-body">令和2年2月27日</div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="panel panel-danger">
             <div class="panel-heading">Total Number</div>
             <div class="panel-body">
+              <div id="total-num"></div>
             </div>
           </div>
         </div>
@@ -46,6 +46,7 @@
           <div class="panel panel-danger">
             <div class="panel-heading">Gender</div>
             <div class="panel-body">
+              <canvas id="pieGender"></canvas>
             </div>
           </div>
         </div>
@@ -85,6 +86,8 @@
       const c = Math.round(255.0 - scale(0,255,0,70,target)).toString(16).padStart(2, "0");
       return "#FF" + c + c;
     }
+
+    document.getElementById("total-num").innerText = nCovData.length;
 
     var tooltipSpan = document.getElementById('tooltip');
     window.onmousemove = function (e) {
@@ -160,6 +163,33 @@
         },
       }
     });
+
+    var ctxPie = document.getElementById("pieGender");
+      var pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(groupedByGender),
+          datasets: [{
+            data: Object.keys(groupedByGender).map(e => groupedByGender[e].length),
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          legend: {
+            display: false
+          },
+        }
+      });
   </script>
 </body>
 </html>
