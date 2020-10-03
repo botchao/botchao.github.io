@@ -59,9 +59,9 @@
   var g = svg.append("g");
 
   d3.queue()
-    .defer(d3.json, '../json/twCounty2010.topo.json')
-    .defer(d3.json, '../json/twTown1982.topo.json')
-    .defer(d3.json, '../json/twVillage1982.topo.json')
+    .defer(d3.json, 'https://raw.githubusercontent.com/botchao/botchao.github.io/master/json/twCounty2010.topo.json')
+    .defer(d3.json, 'https://raw.githubusercontent.com/botchao/botchao.github.io/master/json/twTown1982.topo.json')
+    .defer(d3.json, 'https://raw.githubusercontent.com/botchao/botchao.github.io/master/json/twVillage1982.topo.json')
     .awaitAll(initialize)
   
   function initialize(error, results) {
