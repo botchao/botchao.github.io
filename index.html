@@ -1,195 +1,245 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>nCoV Japan Map</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-  <script type="text/javascript" src="https://unpkg.com/japan-map-js@1.0.1/dist/jpmap.min.js"></script>
-  <script src="data.js"></script>
-  <style>
-    body {
-      background-color: #222222
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+    #map {
+      width: 960px;
+      height: 500px;
     }
 
-    #tooltip {
-      color: #222222; 
-      background-color: #ffdd00;
-      padding: 5px;
-      text-decoration:none;
-      position:relative;
-      display:none;
+    .background {
+      fill: none;
+      pointer-events: all;
     }
-  </style>
-</head>
-<body>
-  <div class="container-fluid">
-    <div class="row content">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="panel panel-danger">
-            <div class="panel-heading">Last Updated Date</div>
-            <div class="panel-body">令和2年2月27日</div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="panel panel-danger">
-            <div class="panel-heading">Total Number</div>
-            <div class="panel-body">
-              <div id="total-num"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="panel panel-danger">
-            <div class="panel-heading">Gender</div>
-            <div class="panel-body">
-              <canvas id="pieGender"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>    
-      <br>
-      <div class="row">
-        <div class="col-md-8">
-          <div class="panel panel-danger">
-            <div class="panel-heading">Date</div>
-            <div class="panel-body">
-              <canvas id="barDate"></canvas>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="panel panel-danger">
-            <div class="panel-heading">Age</div>
-            <div class="panel-body">
-              <canvas id="barAge"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <span id="text" style="display:inline-block; width: 1002px; color: #ffffff; background-color: #ff0000; text-align: center">令和2年2月27日版</span>
-  <span id="tooltip"></span>
-  <div id="my-map"></div>
+    </style>
+  </head>
+  <body>
+    <div style="border-style: solid; border-color: red"><svg id="map"></svg></div>
+  </body>
+  <script src="json/join.js"></script>
+  <script src="http://d3js.org/d3.v4.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script>
-    function scale(xMax, xMin, yMax, yMin, yInput) {
-      const percent = (yInput - yMin) / (yMax - yMin);
-      const result = percent * (xMax - xMin) + xMin;
-      return result;
+  const area = {
+    AREA_COUNTY: 0,
+    AREA_TOWN: 1,
+    AREA_VILLAGE: 2
+  };
+
+  var width = 960, height = 500, centered, g;
+  var county, town, village;
+  
+  var colorMap = d3.scaleLinear().domain([0,4000000]).range(["#000","#fff"]);
+
+  var prj = d3.geoMercator().center([120.979531, 23.978567]).scale(5000);
+  var path = d3.geoPath().projection(prj);
+  
+
+  var defaultWording = "Move your mouse to the area you are interested in";
+  var tooltip = d3.select("body")
+    .append("div")
+    .style("padding", "5px")
+    .style("background-color", "red")
+    .style("color", "white")
+    .style("font-size", "16px")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .text(defaultWording);
+
+  var svg = d3.select("svg#map");
+  
+  svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", back2ori);
+
+  var g = svg.append("g");
+
+  d3.queue()
+    .defer(d3.json, '../json/twCounty2010.topo.json')
+    .defer(d3.json, '../json/twTown1982.topo.json')
+    .defer(d3.json, '../json/twVillage1982.topo.json')
+    .awaitAll(initialize)
+  
+  function initialize(error, results) {
+    if (error) {
+      throw error;
     }
 
-    function getColorCode(target) {
-      const c = Math.round(255.0 - scale(0,255,0,70,target)).toString(16).padStart(2, "0");
-      return "#FF" + c + c;
-    }
+    county = topojson.feature(results[0], results[0].objects.layer1).features;
+    town = topojson.feature(results[1], results[1].objects.layer1).features;
+    village = topojson.feature(results[2], results[2].objects.layer1).features;
 
-    document.getElementById("total-num").innerText = nCovData.length;
+    g.selectAll(".county")
+      .data(county)
+      .enter()
+      .append("path")
+      .attr('class', 'county')
+      .attr("d", path)
+      .style('stroke', 'red')
+      .style('fill', function(d) {
+        return colorMap(getAverage(filterData(d, area.AREA_COUNTY)));
+      })
+      .on("mouseover", function(d) {
+        d3.select(this).style("fill", "red");
+        
+        var res = filterData(d, area.AREA_COUNTY);
+        var popData = getPopulation(res);
+        return tooltip.text(`[${d.properties.COUNTYNAME}] 平均薪資:${Math.round(getAverage(res)/10000)} 萬元, 大學學歷(以上):${Math.round(getEducation(res)*100.0)}%, 戶數:${popData["house"]}, 人口數:${popData["pop"]}, 男:${Math.round(popData["male"]*100)}%, 女:${Math.round(popData["female"]*100)}%`);
+      })
+      .on("mouseout", function(d) { 
+        d3.select(this).style("fill", colorMap(getAverage(filterData(d, area.AREA_COUNTY))));
 
-    var tooltipSpan = document.getElementById('tooltip');
-    window.onmousemove = function (e) {
-        var x = e.clientX, y = e.clientY;
-        tooltipSpan.style.top = (y + 16) + 'px';
-        tooltipSpan.style.left = (x + 16) + 'px';
-    };
+        return tooltip.text(defaultWording); 
+      })
+      .on('click', intoCounty);
+  }
 
-    var areas = [];
-    for (var code = 1; code <= 47; code++) {
-      const num = (groupedByLocation[code]) ? groupedByLocation[code].length : 0;
-      areas.push({ "code":code, "color": getColorCode(num), "number": num });
-    }
-    // console.log(areas);
+  function intoCounty(d) {
+    g.selectAll('.town').remove();
+    g.selectAll('.village').remove();
 
-    var d = new jpmap.japanMap(document.getElementById("my-map"), {
-      areas: areas,
-      hoverColor: "#ffdd00",
-      movesIslands : true,
-      borderLineColor: "#000000",
-      width: 1000,
-      onHover: function(data){
-        var tt = document.getElementById("tooltip");
+    var currCountyFilter = town.filter(function(i) {
+      return i.properties.COUNTYNAME == d.properties.COUNTYNAME;
+    });
+    var currTownPaths = g.selectAll('.town').data(currCountyFilter, function(i) {
+      return i.properties.COUNTYNAME;
+    });
+    
+    currTownPaths
+      .enter()
+      .append("path")
+      .attr('class', 'town')
+      .attr("d", path)
+      .style('stroke', 'orange')
+      .style('fill', function(d) {
+        return colorMap(getAverage(filterData(d, area.AREA_TOWN)));
+      })
+      .on("mouseover", function(d) { 
+        d3.select(this).style("fill", "orange");
 
-        if (data.area.number == 0) {
-          tt.innerHTML = (data.name);
-        } else {
-          tt.innerHTML = (data.name + " 感染者数: " + data.area.number);
-        }
+        var res = filterData(d, area.AREA_TOWN);
+        var popData = getPopulation(res);
+        return tooltip.text(`[${d.properties.TOWNNAME}] 平均薪資:${Math.round(getAverage(res)/10000)} 萬元, 大學學歷(以上):${Math.round(getEducation(res)*100.0)}%, 戶數:${popData["house"]}, 人口數:${popData["pop"]}, 男:${Math.round(popData["male"]*100)}%, 女:${Math.round(popData["female"]*100)}%`); 
+      })
+      .on("mouseout", function(d) { 
+        d3.select(this).style("fill", colorMap(getAverage(filterData(d, area.AREA_COUNTY))));
 
-        tt.style = "display:block; position:fixed; overflow:hidden;";
-      },
-      onHoverOut: function(data) {
-        var tt = document.getElementById("tooltip");
-        tt.style = "display:none;";
-      }
+        return tooltip.text(defaultWording); 
+      })
+      .on('click', intoTown);
+
+    clicked(d);
+  }
+
+  function intoTown(d) {
+    g.selectAll('.village').remove();
+
+    var currTownFilter = village.filter(function(i) {
+      return i.properties.TOWNNAME == d.properties.TOWNNAME;
+    });
+    var currVillagePaths = g.selectAll('.village').data(currTownFilter, function(i) {
+      return i.properties.TOWNNAME;
     });
 
-    var ctxBarAge = document.getElementById("barAge");
-    var barChartAge = new Chart(ctxBarAge, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(groupedByAge),
-        datasets: [{
-          data: Object.keys(groupedByAge).map(e => groupedByAge[e].length),
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255,99,132,1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-      }
-    });
+    currVillagePaths
+      .enter()
+      .append("path")
+      .attr('class', 'village')
+      .attr("d", path)
+      .style('stroke', 'yellow')
+      .style('fill', function(d) {
+        return colorMap(getAverage(filterData(d, area.AREA_VILLAGE)));
+      })
+      .on("mouseover", function(d) { 
+        d3.select(this).style("fill", "yellow");
 
-    var ctxBarDate = document.getElementById("barDate");
-    var barChartDate = new Chart(ctxBarDate, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(groupedByDate),
-        datasets: [{
-          data: Object.keys(groupedByDate).map(e => groupedByDate[e].length),
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255,99,132,1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-      }
-    });
+        var res = filterData(d, area.AREA_VILLAGE);
+        var popData = getPopulation(res);
+        return tooltip.text(`[${d.properties.VILLAGENAM}] 平均薪資:${Math.round(getAverage(res)/10000)} 萬元, 大學學歷(以上):${Math.round(getEducation(res)*100.0)}%, 戶數:${popData["house"]}, 人口數:${popData["pop"]}, 男:${Math.round(popData["male"]*100)}%, 女:${Math.round(popData["female"]*100)}%`); 
+      })
+      .on("mouseout", function(d) { 
+        d3.select(this).style("fill", colorMap(getAverage(filterData(d, area.AREA_COUNTY))));
 
-    var ctxPie = document.getElementById("pieGender");
-      var pieChart = new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-          labels: Object.keys(groupedByGender),
-          datasets: [{
-            data: Object.keys(groupedByGender).map(e => groupedByGender[e].length),
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          legend: {
-            display: false
-          },
-        }
+        return tooltip.text(defaultWording); 
       });
+
+      clicked(d);
+  }
+
+  function back2ori(d) {
+    g.selectAll('.town').remove();
+    g.selectAll('.village').remove();
+
+    clicked(d);
+  }
+
+  function filterData(d, idx) {
+    if (idx == area.AREA_COUNTY) {
+      return taxData["data"].filter(ele => ele[idx] == d.properties.COUNTYNAME);
+    } else if (idx == area.AREA_TOWN) {
+      return taxData["data"].filter(ele => ele[0] + ele[idx].slice(0, -1) == d.properties.COUNTYNAME + d.properties.TOWNNAME.slice(0, -1));
+    } else {
+      return taxData["data"].filter(ele => ele[0] + ele[1].slice(0, -1) + ele[idx].slice(0, -1) == d.properties.COUNTYNAME + d.properties.TOWNNAME.slice(0, -1) + d.properties.VILLAGENAM.slice(0, -1));
+    }
+  }
+
+  function getAverage(res) {    
+    var totalAmount = res.reduce((a, c) => a + parseFloat(c[3]), 0);
+    var totalMoney = res.reduce((a, c) => a + parseFloat(c[3]) * parseFloat(c[4]), 0);
+    // console.log(`${totalAmount} ${totalMoney}`);
+    // console.log(i.properties.COUNTYNAME);
+
+    return totalMoney/totalAmount;
+  }
+
+  function getEducation(res) {
+    var totalPopulation = res.reduce((a, c) => a + ((c[5] == "NA") ? 0.0 : parseFloat(c[5])), 0);
+    var totalBsDegree = res.reduce((a, c) => a + ((c[6] == "NA") ? 0.0 : parseFloat(c[6])), 0);
+    
+    return totalBsDegree/totalPopulation;
+  }
+
+  function getPopulation(res) {
+    var totalHouse = res.reduce((a, c) => a + ((c[7] == "NA") ? 0.0 : parseFloat(c[7])), 0);
+    var totalPopulation = res.reduce((a, c) => a + ((c[8] == "NA") ? 0.0 : parseFloat(c[8])), 0);
+    var totalMale = res.reduce((a, c) => a + ((c[9] == "NA") ? 0.0 : parseFloat(c[9])), 0);
+    var totalFemale = res.reduce((a, c) => a + ((c[10] == "NA") ? 0.0 : parseFloat(c[10])), 0);
+    
+    return {
+      "house": totalHouse, 
+      "pop": totalPopulation, 
+      "male": totalMale/totalPopulation, 
+      "female": totalFemale/totalPopulation
+    };
+  }
+
+  function clicked(d) {
+    var x, y, scale;
+
+    if (d && centered !== d) {
+      var centroid = path.centroid(d);
+      x = centroid[0];
+      y = centroid[1];
+      scale = (d.properties.hasOwnProperty("TOWNNAME"))? 64 : 16;
+      centered = d;
+    } else {
+      x = width / 2;
+      y = height / 2;
+      scale = 1;
+      centered = null;
+    }
+
+    g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+    g.transition()
+      .duration(750)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + scale + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / scale + "px");
+  }
   </script>
-</body>
 </html>
