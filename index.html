@@ -5,18 +5,36 @@
     <title></title>
     <style>
     #map {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 1;
       width: 960px;
       height: 500px;
+      border-style: solid; 
+      border-color: red;
     }
 
     .background {
       fill: none;
       pointer-events: all;
     }
+
+    #back {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 10;
+      background-color: red;
+      color: white;
+      font-size: 16px;
+      border-color: red;
+    }
     </style>
   </head>
   <body>
-    <div style="border-style: solid; border-color: red"><svg id="map"></svg></div>
+    <svg id="map"></svg>
+    <button id="back" type="button" onclick="back2ori();">Back</button>
   </body>
   <script src="json/join.js"></script>
   <script src="js/d3.v4.min.js"></script>
@@ -40,11 +58,14 @@
   var defaultWording = "Move your mouse to the area you are interested in";
   var tooltip = d3.select("body")
     .append("div")
-    .style("padding", "5px")
+    .style("padding", "3px")
     .style("background-color", "red")
     .style("color", "white")
     .style("font-size", "16px")
     .style("position", "absolute")
+    .style("left", "0px")
+    .style("top", "500px")
+    .style("width", "960px")
     .style("z-index", "10")
     .text(defaultWording);
 
